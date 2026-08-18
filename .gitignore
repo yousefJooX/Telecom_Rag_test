@@ -1,0 +1,12 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+app.log
+*.log
+.vscode/
+.idea/
+faiss_telecom_index/
+data/
+.DS_Store

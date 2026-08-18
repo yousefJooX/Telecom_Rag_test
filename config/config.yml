@@ -1,0 +1,24 @@
+app:
+  name: "Telecom RAG API"
+  version: "1.0.0"
+  description: "Production-grade Telecom Customer Support RAG Microservice."
+
+data:
+  vector_index_path: "faiss_telecom_index"
+  chunk_size: 500
+  chunk_overlap: 100
+  batch_size: 50
+
+models:
+  embedding_provider: "huggingface"
+  embedding_model_name: "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+
+  # llm_provider options supported by ModelFactory.get_llm(): "gemini" | "openai" | "nvidia"
+  llm_provider: "gemini"
+  # pick the model name that matches whichever llm_provider is active above:
+  #   gemini -> "gemini-2.5-flash"
+  #   openai -> "gpt-4o" (or "gpt-4o-mini", etc.)
+  #   nvidia -> "meta/llama3-70b-instruct" (or any model hosted on NVIDIA NIM)
+  llm_model_name: "gemini-2.5-flash"
+  temperature: 0
+  k_retrieval: 20
