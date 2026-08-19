@@ -15,7 +15,7 @@ class VectorDatabaseRepository:
         self.embeddings = ModelFactory.get_embeddings()
         self.index_path = settings.vector_index_path
 
-    def save_index(self, vectorstore: FAISS):
+    def save_index(self, vectorstore: FAISS):  #we  got it  form  langcahin 
         logger.info(f"Saving FAISS index locally to '{self.index_path}'...")
         vectorstore.save_local(self.index_path)
         # Update RAM cache with the new vectorstore
@@ -46,7 +46,7 @@ class VectorDatabaseRepository:
     def create_from_documents(self, documents: list, batch_size: int = None) -> FAISS:
         batch_size = batch_size or settings.batch_size
         total_chunks = len(documents)
-        total_batches = (total_chunks + batch_size - 1) // batch_size
+        total_batches = (total_chunks + batch_size - 1) // batch_size      
         
         logger.info(f"Indexing {total_chunks} chunks into FAISS in {total_batches} batches (batch_size={batch_size})...")
         vectorstore = None
