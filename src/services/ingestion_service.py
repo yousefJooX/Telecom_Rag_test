@@ -13,18 +13,15 @@ class IngestionService:
     def __init__(self):
         self.repo = VectorDatabaseRepository()
 
-    def process_file(self, content, filename: str, chunk_size=None, chunk_overlap=None) -> int:
+    def process_file(self, content: str, filename: str, chunk_size=None, chunk_overlap=None) -> int:
         """
         Process file content into chunks and index into FAISS.
-        Accepts bytes or str; decodes bytes to UTF-8 internally.
         Validates extension caller-side (in router); this method assumes valid extension.
         """
-        if isinstance(content, bytes):
-            text_content = content.decode("utf-8").replace("\r\n", "\n")
-        else:
-            text_content = content.replace("\r\n", "\n")
-
         logger.info(f"Processing file content for: {filename}")
+
+        # Strip Windows line endings
+        text_content = content.replace("\r\n", "\n")
 
         logger.info(f"Splitting file '{filename}' (chunk_size={chunk_size or settings.chunk_size}, overlap={chunk_overlap or settings.chunk_overlap})...")
         text_splitter = RecursiveCharacterTextSplitter(
