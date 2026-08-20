@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - faiss_telecom_index:/app/faiss_telecom_index
+    restart: unless-stopped
+
+volumes:
+  faiss_telecom_index:

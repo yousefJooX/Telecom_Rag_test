@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [dev, main]
+  pull_request:
+    branches: [dev, main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.11-slim
+      ports: ["8000:8000"]
+    env:
+      GOOGLE_API_KEY: "test-key"
+      OPENAI_API_KEY: "sk-test-fake"
+      NVIDIA_API_KEY: "nvapi-test-fake"
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          pip install --no-cache-dir pip
+          pip install --no-cache-dir -r requirements.txt
+
+      - name: Run pytest
+        run: |
+          pytest tests/ -v

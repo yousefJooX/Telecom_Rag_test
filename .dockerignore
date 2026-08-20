@@ -5,3 +5,4 @@ __pycache__/
 .env
 *.log
 faiss_telecom_index/
+.pytest_cache/

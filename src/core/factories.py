@@ -1,5 +1,6 @@
 import os
 from functools import lru_cache
+import torch
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
@@ -18,10 +19,11 @@ class ModelFactory:
     @lru_cache(maxsize=1)
     def get_embeddings():
         if settings.embedding_provider.lower() == "huggingface":
-            logger.info(f"Initializing Embeddings Model (Provider: {settings.embedding_provider})...")
+            device = 'cuda' if torch.cuda.is_available() else 'cpu'
+            logger.info(f"Initializing Embeddings Model (Provider: {settings.embedding_provider}, Device: {device})...")
             return HuggingFaceEmbeddings(
                 model_name=settings.embedding_model_name,
-                model_kwargs={'device': 'cuda'},
+                model_kwargs={'device': device},
                 encode_kwargs={'normalize_embeddings': True} # Normalize embeddings for better similarity search 
             )
         else:

@@ -71,6 +71,14 @@ class Config:
         return int(self._config["models"]["k_retrieval"])
 
     @property
+    def cost_per_1m_input_tokens(self) -> float:
+        return float(self._config["models"].get("cost_per_1m_input_tokens", 0.01))
+
+    @property
+    def cost_per_1m_output_tokens(self) -> float:
+        return float(self._config["models"].get("cost_per_1m_output_tokens", 0.03))
+
+    @property
     def google_api_key(self) -> str:
         key = os.getenv("GOOGLE_API_KEY")
         if not key:

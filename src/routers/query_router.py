@@ -1,11 +1,15 @@
 from fastapi import APIRouter, HTTPException
-import logging
-from src.models.schemas import QueryRequest, QueryResponse
-from src.services.rag_service import RAGService
+from src.models.schemas import QueryRequest, QueryResponse, StatsResponse
+from src.services.rag_service import RAGService, aggregate_token_stats
 from src.logging.logger import logger
 
 router = APIRouter(prefix="/api/v1", tags=["Query"])
 rag_service = RAGService()
+
+
+@router.get("/stats", response_model=StatsResponse, status_code=200)
+async def get_stats():
+    return aggregate_token_stats()
 
 
 @router.post("/query", response_model=QueryResponse, status_code=200)
